@@ -23,7 +23,7 @@ private:
     static void GenerateTable();
 
     // RRR table. First index is class, second is it's offset in table
-	std::vector<std::vector<bool> > table_;
+	std::vector<std::vector<bool> > table;
 };
 
 #endif // RRR_LOOKUP_TABLE_H_INCLUDED

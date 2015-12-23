@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include "rrr_struct.h"
 
 using namespace std;
 
@@ -32,7 +33,7 @@ std::vector<bool> ConvertStringToBitVector(const string& string_) {
 
 int main() {
     string novi;
-    novi = "atggtgacctg";
+    novi = "atggtgacctgtcaagagctagctagctgacttgagctagctagctgacgagctagctagctgac";
     uint32_t string_length = novi.length();
     std::vector<bool> jedan;
     for ( int i = 0; i < string_length; i++) {
@@ -42,11 +43,17 @@ int main() {
             jedan.push_back(true);
         }
     }
+    RRRStruct rrr = RRRStruct(string_length);
+    double novo = log2((double)string_length/2.0);
+    uint32_t bits_per_block = (int) (floor(log2(string_length))/2);
+    uint32_t blocks_per_superblock = bits_per_block * (int)(floor(log2(string_length)));
     cout << "Hello world!" << endl;
     novi = ConvertBitVectorToString(jedan);
     jedan = ConvertStringToBitVector(novi);
+    cout << novo << "dasidaia" << endl;
     cout << novi << endl;
-    novi = ConvertBitVectorToString(jedan);
-    cout << novi << endl;
+    cout << string_length << endl;
+    cout << bits_per_block << endl;
+    cout << blocks_per_superblock << endl;
     return 0;
 }
