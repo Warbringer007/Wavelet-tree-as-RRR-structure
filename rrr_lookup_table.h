@@ -1,6 +1,8 @@
 #ifndef RRR_LOOKUP_TABLE_H_INCLUDED
 #define RRR_LOOKUP_TABLE_H_INCLUDED
 #include <vector>
+#include <algorithm>
+#include <string>
 
 //This class generates and contains RRR Lookup Table
 //Which is needed for operations Rank and Select
@@ -19,11 +21,16 @@ public:
 
 private:
 
-    //Generates minimum RRR Lookup table
-    static void GenerateTable();
-
-    // RRR table. First index is class, second is it's offset in table
+    //RRR table. It is represented as vector of vectors
+    //Each vector represents all of the possible offsets for that class
+    //Each offset starts at OFFSET * block_length bit of vector
 	std::vector<std::vector<bool> > table;
+
+    //Block length
+    uint32_t block_length_;
+
+    //Converts string to bit vector
+    std::vector<bool> ConvertStringToBitVector(const std::string& string_);
 };
 
 #endif // RRR_LOOKUP_TABLE_H_INCLUDED
