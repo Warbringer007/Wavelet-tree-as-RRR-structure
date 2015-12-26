@@ -35,7 +35,7 @@ RRRLookupTable::~RRRLookupTable() {
 }
 
 //Converts string to bit vector
-std::vector<bool> ConvertStringToBitVector(std::string& string_) {
+std::vector<bool> RRRLookupTable::ConvertStringToBitVector(const std::string& string_) {
     std::vector<bool> bitvector;
     uint32_t string_length = string_.length();
     for ( int i = 0; i < string_length; i++) {
