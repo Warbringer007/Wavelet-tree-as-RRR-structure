@@ -12,7 +12,7 @@ RRRLookupTable::RRRLookupTable(uint32_t block_length) {
         permutation_vector.push_back(false);
     }
     //First permutation with only zeroes
-    table.push_back(permutation_vector);
+    table_.push_back(permutation_vector);
     for ( int i = 0; i < block_length; i++) {
         permutation[block_length-i-1] = '1';
         permutation_vector.clear();
@@ -25,13 +25,18 @@ RRRLookupTable::RRRLookupTable(uint32_t block_length) {
             }
         } while(next_permutation(permutation.begin(), permutation.end()));
         //Adds one completed class to table
-        table.push_back(permutation_vector);
+        table_.push_back(permutation_vector);
     }
 }
 
 //Destructor
 RRRLookupTable::~RRRLookupTable() {
 
+}
+
+//Returns RRR Lookup table
+std::vector<std::vector<bool> > RRRLookupTable::GetLookupTable() {
+    return table_;
 }
 
 //Converts string to bit vector

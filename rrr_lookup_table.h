@@ -11,7 +11,7 @@ class RRRLookupTable {
 public:
 
     //Returns RRR Lookup table
-    static std::vector<std::vector<bool> > GetLookupTable();
+    std::vector<std::vector<bool> > GetLookupTable();
 
     //Constructor
     RRRLookupTable(uint32_t block_length);
@@ -24,7 +24,7 @@ private:
     //RRR table. It is represented as vector of vectors
     //Each vector represents all of the possible offsets for that class
     //Each offset starts at OFFSET * block_length bit of vector
-	std::vector<std::vector<bool> > table;
+	std::vector<std::vector<bool> > table_;
 
     //Block length
     uint32_t block_length_;
