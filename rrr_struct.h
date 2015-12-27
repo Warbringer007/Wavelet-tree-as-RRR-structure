@@ -22,8 +22,11 @@ public:
     //Returns number of chosen bits from beginning till the bit with that index
 	uint32_t Rank(uint32_t index, bool value);
 
-	//Returns index of n-th appearance of chosen bit
-	uint32_t Select(uint32_t n, bool value);
+	//Returns index of n-th appearance of one
+	uint32_t Select1(uint32_t n);
+
+	//Returns index of n-th appearance of zero
+	uint32_t Select0(uint32_t n);
 
 	//Return calculated bits per block
     uint32_t GetBitsPerBlock() { return bits_per_block;}
@@ -55,10 +58,19 @@ private:
     //Calculate number of ones in current block
     uint8_t NumberOfOnes(std::vector<bool> block);
 
+    //Calculate number of ones in current block till targeted index
+    uint8_t NumberOfOnes(std::vector<bool> block, uint8_t index);
+
     //Convert integer to bit vector
     std::vector<bool> ConvertIntToBitVector(uint8_t number);
 
-    std::string ConvertBitVectorToString(std::vector<bool>& bitvector);
+    //Convert bit vector to integer
+    uint32_t ConvertBitVectorToInt(std::vector<bool> bitvector);
+
+    //Pull bit vector from lookup table
+    std::vector<bool> PullBitVector(RRRBlock block);
+
+    std::string ConvertBitVectorToString(std::vector<bool> bitvector);
 };
 
 #endif // RRR_STRUCT_H_INCLUDED
