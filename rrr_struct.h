@@ -14,7 +14,10 @@ class RRRStruct {
 public:
 
     //Constructor
-    RRRStruct(uint32_t block_length);
+    RRRStruct();
+
+    //Define structure
+    void DefineStruct(uint32_t block_length);
 
     //Destructor
     ~RRRStruct();

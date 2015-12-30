@@ -4,7 +4,12 @@
 #include <iostream>
 
 //Constructor
-RRRStruct::RRRStruct(uint32_t sequence_length) {
+RRRStruct::RRRStruct() {
+
+}
+
+//Define structure
+void RRRStruct::DefineStruct(uint32_t sequence_length) {
     //Calculate number of bits per block
     //And number of blocks per superblock
     bits_per_block = (int) (floor(log2(sequence_length))/2);
