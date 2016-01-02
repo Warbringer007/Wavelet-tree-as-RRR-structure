@@ -24,6 +24,8 @@ class Wavelet_tree
         //Calculates rank from tree
         uint32_t Rank(char letter, uint32_t number);
 
+        //Calculates select from tree
+        uint32_t Select(char letter, uint32_t number);
     private:
 
         std::vector<bool> root;

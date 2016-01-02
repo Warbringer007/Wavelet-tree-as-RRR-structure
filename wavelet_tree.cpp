@@ -105,6 +105,21 @@ uint32_t Wavelet_tree::Rank(char letter, uint32_t number) {
     }
 }
 
+uint32_t Wavelet_tree::Select(char letter, uint32_t number) {
+    if ( letter == 'a') {
+        return (root_RRR.Select1(left_RRR.Select1(number)+1)+1);
+    }
+    if ( letter == 'g') {
+        return (root_RRR.Select1(left_RRR.Select0(number)+1)+1);
+    }
+    if ( letter == 't') {
+        return (root_RRR.Select0(right_RRR.Select1(number)+1)+1);
+    }
+    if ( letter == 'c') {
+        return (root_RRR.Select0(right_RRR.Select0(number)+1)+1);
+    }
+}
+
 std::string Wavelet_tree:: GetStringFromFile(std::string file){
     std::ifstream input(file.c_str());
 	std::string input_string = "";
