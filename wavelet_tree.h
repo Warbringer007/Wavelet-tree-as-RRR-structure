@@ -21,6 +21,9 @@ class Wavelet_tree
         //Get string from file
         std::string GetStringFromFile(std::string file);
 
+        //Calculates rank from tree
+        uint32_t Rank(char letter, uint32_t number);
+
     private:
 
         std::vector<bool> root;
@@ -29,6 +32,8 @@ class Wavelet_tree
         RRRStruct root_RRR;
         RRRStruct left_RRR;
         RRRStruct right_RRR;
+
+        std::string ConvertBitVectorToString(std::vector<bool> bitvector);
 };
 
 #endif // WAVELET_TREE_H

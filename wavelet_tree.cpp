@@ -80,6 +80,7 @@ Wavelet_tree::Wavelet_tree(std::string file) {
         mojr.push_back(right[wholeright*BitsPerBlockR+i]);
     }
     right_RRR.NewBlock(mojr);
+    Wavelet_tree::Rank('a',10);
     //RRRStruct left_RRR(5);
     //RRRStruct right_RRR(5);
     //std::cout << root_RRR.GetBitsPerBlock() << std::endl;
@@ -87,6 +88,21 @@ Wavelet_tree::Wavelet_tree(std::string file) {
 
 Wavelet_tree::~Wavelet_tree(){
 
+}
+
+uint32_t Wavelet_tree::Rank(char letter, uint32_t number) {
+    if ( letter == 'a') {
+        return left_RRR.Rank(root_RRR.Rank(number,true),true);
+    }
+    if ( letter == 'g') {
+        return left_RRR.Rank(root_RRR.Rank(number,true),false);
+    }
+    if ( letter == 't') {
+        return right_RRR.Rank(root_RRR.Rank(number,false),true);
+    }
+    if ( letter == 'c') {
+        return right_RRR.Rank(root_RRR.Rank(number,false),false);
+    }
 }
 
 std::string Wavelet_tree:: GetStringFromFile(std::string file){
@@ -123,6 +139,9 @@ std::string Wavelet_tree:: GetStringFromFile(std::string file){
             string_.append("0");
         }
     }
+    std::cout<<ConvertBitVectorToString(root)<<std::endl;
+    std::cout<<ConvertBitVectorToString(left)<<std::endl;
+    std::cout<<ConvertBitVectorToString(right)<<std::endl;
     /*std::cout<<string_<<std::endl;
     std::cout<<root[0];
     std::cout<<root[1];
@@ -138,4 +157,17 @@ std::string Wavelet_tree:: GetStringFromFile(std::string file){
     std::cout<<right[3]<<std::endl;
 	std::cout <<input_string<<std::endl;*/
 	return input_string;
+}
+
+std::string Wavelet_tree::ConvertBitVectorToString(std::vector<bool> bitvector) {
+    std::string string_;
+    uint32_t vector_length = bitvector.size();
+    for ( int i = 0; i < vector_length; i++) {
+        if ( bitvector[i]) {
+            string_.append("1");
+        } else {
+            string_.append("0");
+        }
+    }
+    return string_;
 }
