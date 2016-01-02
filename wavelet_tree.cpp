@@ -1,12 +1,14 @@
 #include "wavelet_tree.h"
-#include "rrr_struct.h"
 
 Wavelet_tree::Wavelet_tree(std::string file) {
     Wavelet_tree::GetStringFromFile(file);
     std::cout << "root size: " << root.size() << std::endl;
     std::cout << "left size: " << left.size() << std::endl;
     std::cout << "right size: " << right.size() << std::endl;
-    int wholeroot,remainderroot, wholeleft, remainderleft, wholeright, remainderright= 0;
+    Wavelet_tree::CreateRRRFromString(&root_RRR, root);
+    Wavelet_tree::CreateRRRFromString(&left_RRR, left);
+    Wavelet_tree::CreateRRRFromString(&right_RRR, right);
+    /*int wholeroot,remainderroot, wholeleft, remainderleft, wholeright, remainderright= 0;
     root_RRR.DefineStruct(root.size());
     left_RRR.DefineStruct(left.size());
     right_RRR.DefineStruct(right.size());
@@ -20,14 +22,11 @@ Wavelet_tree::Wavelet_tree(std::string file) {
     remainderleft = left.size() % BitsPerBlockL;
     wholeright = right.size() / BitsPerBlockR;
     remainderright = right.size() % BitsPerBlockR;
-    std::cout << "cjelobrojno dijeljenjeroot: " << wholeroot << std::endl;
-    std::cout << "ostatakroot " << remainderroot << std::endl;
+    //std::cout << "cjelobrojno dijeljenjeroot: " << wholeroot << std::endl;
+    //std::cout << "ostatakroot " << remainderroot << std::endl;
     //std::cout<<root_RRR.GetBitsPerBlock()<<std::endl;
-    /*
 
-    root
 
-    */
     for ( int i = 0; i < wholeroot; i++ ) {
         std::vector<bool> moj;
         for ( int j = 0; j< BitsPerBlock; j++){
@@ -40,13 +39,8 @@ Wavelet_tree::Wavelet_tree(std::string file) {
         moj.push_back(root[wholeroot*BitsPerBlock+i]);
     }
     root_RRR.NewBlock(moj);
-
     std::cout<<std::endl;
-     /*
 
-    left
-
-    */
 
     for ( int i = 0; i < wholeleft; i++ ) {
         std::vector<bool> mojl;
@@ -62,11 +56,6 @@ Wavelet_tree::Wavelet_tree(std::string file) {
     left_RRR.NewBlock(mojl);
     std::cout<<std::endl;
 
-     /*
-
-    right
-
-    */
 
     for ( int i = 0; i < wholeright; i++ ) {
         std::vector<bool> mojr;
@@ -79,8 +68,8 @@ Wavelet_tree::Wavelet_tree(std::string file) {
     for ( int i = 0; i < remainderright; i++){
         mojr.push_back(right[wholeright*BitsPerBlockR+i]);
     }
-    right_RRR.NewBlock(mojr);
-    Wavelet_tree::Rank('a',10);
+    right_RRR.NewBlock(mojr);*/
+    //Wavelet_tree::Rank('a',10);
     //RRRStruct left_RRR(5);
     //RRRStruct right_RRR(5);
     //std::cout << root_RRR.GetBitsPerBlock() << std::endl;
@@ -90,6 +79,28 @@ Wavelet_tree::~Wavelet_tree(){
 
 }
 
+void Wavelet_tree::CreateRRRFromString(RRRStruct* struct_, std::vector<bool> vector_){
+    int whole, remainder;
+    int size_= vector_.size();
+    struct_->DefineStruct(size_);
+    uint32_t BitsPerBlock = struct_->GetBitsPerBlock();
+    whole = size_ / BitsPerBlock;
+    remainder = size_ % BitsPerBlock;
+    for ( int i = 0; i < whole; i++ ) {
+        std::vector<bool> moj;
+        for ( int j = 0; j< BitsPerBlock; j++){
+            moj.push_back(vector_[i*BitsPerBlock+j]);
+        }
+        struct_->NewBlock(moj);
+    }
+    std::vector<bool> moj;
+    for ( int i = 0; i < remainder; i++){
+        moj.push_back(vector_[whole*BitsPerBlock+i]);
+    }
+    struct_->NewBlock(moj);
+    std::cout<<std::endl;
+}
+//Rank on wavelet tree
 uint32_t Wavelet_tree::Rank(char letter, uint32_t number) {
     if ( letter == 'a') {
         return left_RRR.Rank(root_RRR.Rank(number,true),true);
@@ -105,6 +116,7 @@ uint32_t Wavelet_tree::Rank(char letter, uint32_t number) {
     }
 }
 
+//Select of wavelet tree
 uint32_t Wavelet_tree::Select(char letter, uint32_t number) {
     if ( letter == 'a') {
         return (root_RRR.Select1(left_RRR.Select1(number)+1)+1);
@@ -120,6 +132,7 @@ uint32_t Wavelet_tree::Select(char letter, uint32_t number) {
     }
 }
 
+//Reads the file and converts string to bitvectors
 std::string Wavelet_tree:: GetStringFromFile(std::string file){
     std::ifstream input(file.c_str());
 	std::string input_string = "";
@@ -174,6 +187,7 @@ std::string Wavelet_tree:: GetStringFromFile(std::string file){
 	return input_string;
 }
 
+//Converts bitvector to string
 std::string Wavelet_tree::ConvertBitVectorToString(std::vector<bool> bitvector) {
     std::string string_;
     uint32_t vector_length = bitvector.size();

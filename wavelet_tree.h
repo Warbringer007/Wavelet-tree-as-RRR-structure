@@ -1,11 +1,9 @@
 #ifndef WAVELET_TREE_H
 #define WAVELET_TREE_H
-#include <stdint.h>
-#include "rrr_struct.h"
 
-#include <vector>
+#include "rrr_struct.h"
+//#include <stdint.h>
 #include <fstream>
-#include <string>
 #include <iostream>
 
 class Wavelet_tree
@@ -28,13 +26,19 @@ class Wavelet_tree
         uint32_t Select(char letter, uint32_t number);
     private:
 
+        //Bitvectors of root, left and right branch
         std::vector<bool> root;
         std::vector<bool> left;
         std::vector<bool> right;
+
         RRRStruct root_RRR;
         RRRStruct left_RRR;
         RRRStruct right_RRR;
 
+        //Create RRR from bitvector;
+        void CreateRRRFromString(RRRStruct* struct_, std::vector<bool> vector_);
+
+        //Convert bit vector to integer
         std::string ConvertBitVectorToString(std::vector<bool> bitvector);
 };
 
