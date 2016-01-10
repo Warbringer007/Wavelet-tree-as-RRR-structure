@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <math.h>
+#include <stdint.h>
 #include "rrr_block.h"
 #include "rrr_lookup_table.h"
 

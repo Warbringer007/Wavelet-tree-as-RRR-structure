@@ -3,6 +3,7 @@
 #include <vector>
 #include <algorithm>
 #include <string>
+#include <stdint.h>
 
 //This class generates and contains RRR Lookup Table
 //Which is needed for operations Rank and Select

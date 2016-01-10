@@ -2,7 +2,7 @@
 #define WAVELET_TREE_H
 
 #include "rrr_struct.h"
-//#include <stdint.h>
+#include <stdint.h>
 #include <fstream>
 #include <iostream>
 
