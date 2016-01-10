@@ -2,12 +2,12 @@
 
 Wavelet_tree::Wavelet_tree(std::string file) {
     Wavelet_tree::GetStringFromFile(file);
-    std::cout << "root size: " << root.size() << std::endl;
-    std::cout << "left size: " << left.size() << std::endl;
-    std::cout << "right size: " << right.size() << std::endl;
-    Wavelet_tree::CreateRRRFromString(&root_RRR, root);
-    Wavelet_tree::CreateRRRFromString(&left_RRR, left);
-    Wavelet_tree::CreateRRRFromString(&right_RRR, right);
+    //std::cout << "root size: " << root.size() << std::endl;
+    //std::cout << "left size: " << left.size() << std::endl;
+    //std::cout << "right size: " << right.size() << std::endl;
+    Wavelet_tree::CreateRRRFromBitVector(&root_RRR, root);
+    Wavelet_tree::CreateRRRFromBitVector(&left_RRR, left);
+    Wavelet_tree::CreateRRRFromBitVector(&right_RRR, right);
     /*int wholeroot,remainderroot, wholeleft, remainderleft, wholeright, remainderright= 0;
     root_RRR.DefineStruct(root.size());
     left_RRR.DefineStruct(left.size());
@@ -79,7 +79,7 @@ Wavelet_tree::~Wavelet_tree(){
 
 }
 
-void Wavelet_tree::CreateRRRFromString(RRRStruct* struct_, std::vector<bool> vector_){
+void Wavelet_tree::CreateRRRFromBitVector(RRRStruct* struct_, std::vector<bool> vector_){
     int whole, remainder;
     int size_= vector_.size();
     struct_->DefineStruct(size_);
@@ -98,36 +98,35 @@ void Wavelet_tree::CreateRRRFromString(RRRStruct* struct_, std::vector<bool> vec
         moj.push_back(vector_[whole*BitsPerBlock+i]);
     }
     struct_->NewBlock(moj);
-    std::cout<<std::endl;
 }
 //Rank on wavelet tree
 uint32_t Wavelet_tree::Rank(char letter, uint32_t number) {
-    if ( letter == 'a') {
+    if ( letter == 'A') {
         return left_RRR.Rank(root_RRR.Rank(number,true),true);
     }
-    if ( letter == 'g') {
+    if ( letter == 'G') {
         return left_RRR.Rank(root_RRR.Rank(number,true),false);
     }
-    if ( letter == 't') {
+    if ( letter == 'T') {
         return right_RRR.Rank(root_RRR.Rank(number,false),true);
     }
-    if ( letter == 'c') {
+    if ( letter == 'C') {
         return right_RRR.Rank(root_RRR.Rank(number,false),false);
     }
 }
 
 //Select of wavelet tree
 uint32_t Wavelet_tree::Select(char letter, uint32_t number) {
-    if ( letter == 'a') {
+    if ( letter == 'A') {
         return (root_RRR.Select1(left_RRR.Select1(number)+1)+1);
     }
-    if ( letter == 'g') {
+    if ( letter == 'G') {
         return (root_RRR.Select1(left_RRR.Select0(number)+1)+1);
     }
-    if ( letter == 't') {
+    if ( letter == 'T') {
         return (root_RRR.Select0(right_RRR.Select1(number)+1)+1);
     }
-    if ( letter == 'c') {
+    if ( letter == 'C') {
         return (root_RRR.Select0(right_RRR.Select0(number)+1)+1);
     }
 }
@@ -136,27 +135,28 @@ uint32_t Wavelet_tree::Select(char letter, uint32_t number) {
 std::string Wavelet_tree:: GetStringFromFile(std::string file){
     std::ifstream input(file.c_str());
 	std::string input_string = "";
+	std::string description = "";
 	char one;
-
     while (input.get(one)) {
-            //std::cout << one << std::endl;
-            if ( one=='a' || one=='g') {
-                    //std::cout << "usoag" << std::endl;
+        if ( one == '>'){
+            std::getline(input, description);
+        }
+        else if ( one!='\n') {
+            if ( one=='A' || one=='G') {
                     root.push_back(true);
-                if ( one=='a'){
-                    //std::cout << "usoa" << std::endl;
+                if ( one=='A'){
                     left.push_back(true);
                 }
                 else left.push_back(false);
             }
             else {
-                //std::cout << "usotc" << std::endl;
                 root.push_back(false);
-                if ( one=='t')
+                if ( one=='T')
                     right.push_back(true);
                 else right.push_back(false);
             }
 			input_string += one;
+        }
 	}
 	input.close();
    std::string string_;
@@ -167,23 +167,9 @@ std::string Wavelet_tree:: GetStringFromFile(std::string file){
             string_.append("0");
         }
     }
-    std::cout<<ConvertBitVectorToString(root)<<std::endl;
-    std::cout<<ConvertBitVectorToString(left)<<std::endl;
-    std::cout<<ConvertBitVectorToString(right)<<std::endl;
-    /*std::cout<<string_<<std::endl;
-    std::cout<<root[0];
-    std::cout<<root[1];
-    std::cout<<root[2];
-    std::cout<<root[3]<<std::endl;
-    std::cout<<left[0];
-    std::cout<<left[1];
-    std::cout<<left[2];
-    std::cout<<left[3]<<std::endl;
-    std::cout<<right[0];
-    std::cout<<right[1];
-    std::cout<<right[2];
-    std::cout<<right[3]<<std::endl;
-	std::cout <<input_string<<std::endl;*/
+    //std::cout<<ConvertBitVectorToString(root)<<std::endl;
+    //std::cout<<ConvertBitVectorToString(left)<<std::endl;
+    //std::cout<<ConvertBitVectorToString(right)<<std::endl;
 	return input_string;
 }
 

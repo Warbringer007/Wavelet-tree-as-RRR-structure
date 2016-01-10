@@ -115,7 +115,7 @@ int main() {
     novi = "atggtgacctgtcaagagctagctagctgacttgagctagctagctgacgagctagctagctgac";
     //atggtgacctgtcaagagctagctagctgacttgagctagctagctgacgagctagctagctgac
     gettimeofday(&start_time,NULL);
-    Wavelet_tree wt=Wavelet_tree("example.txt");
+    Wavelet_tree wt=Wavelet_tree("primjer2.fa");
     gettimeofday(&end_time,NULL);
     us = (long)((1000000 * end_time.tv_sec + end_time.tv_usec) -
                     (1000000 * start_time.tv_sec + start_time.tv_usec));
@@ -148,18 +148,21 @@ int main() {
     cout << "select1 2:" << rrr.Select1(2) << endl;
     cout << "select0 2:" << rrr.Select0(2) << endl;*/
     gettimeofday(&start_time,NULL);
-    result=wt.Rank('a',11);
-    cout << "rank 11, a:" << wt.Rank('a',11) << endl;
-    cout << "rank 11, g:" << wt.Rank('g',11) << endl;
-    cout << "rank 11, t:" << wt.Rank('t',11) << endl;
-    cout << "rank 11, c:" << wt.Rank('c',11) << endl;
+    result=wt.Rank('A',11);
+    cout << "rank 11, a:" << wt.Rank('A',4500000) << endl;
+    cout << "rank 11, g:" << wt.Rank('G',4500000) << endl;
+    cout << "rank 11, t:" << wt.Rank('T',4500000) << endl;
+    cout << "rank 11, c:" << wt.Rank('C',4500000) << endl;
     gettimeofday(&end_time,NULL);
     us = (long)((1000000 * end_time.tv_sec + end_time.tv_usec) -
         	(1000000 * start_time.tv_sec + start_time.tv_usec));
     cout << us <<" us" <<endl;
-    cout << "select 3, a:" << wt.Select('a',3) << endl;
-    cout << "select 3, g:" << wt.Select('g',3) << endl;
-    cout << "select 3, t:" << wt.Select('t',3) << endl;
-    cout << "select 3, c:" << wt.Select('c',3) << endl;
+    cout << "select 3, a:" << wt.Select('A',450000) << endl;
+    cout << "select 3, g:" << wt.Select('G',450000) << endl;
+    cout << "select 3, t:" << wt.Select('T',450000) << endl;
+    cout << "select 3, c:" << wt.Select('C',450000) << endl;
+    us = (long)((1000000 * end_time.tv_sec + end_time.tv_usec) -
+        	(1000000 * start_time.tv_sec + start_time.tv_usec));
+    cout << us <<" us" <<endl;
     return 0;
 }

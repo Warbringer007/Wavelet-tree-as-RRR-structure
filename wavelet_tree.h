@@ -36,7 +36,7 @@ class Wavelet_tree
         RRRStruct right_RRR;
 
         //Create RRR from bitvector;
-        void CreateRRRFromString(RRRStruct* struct_, std::vector<bool> vector_);
+        void CreateRRRFromBitVector(RRRStruct* struct_, std::vector<bool> vector_);
 
         //Convert bit vector to integer
         std::string ConvertBitVectorToString(std::vector<bool> bitvector);
