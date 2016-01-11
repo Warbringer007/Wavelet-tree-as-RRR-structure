@@ -13,3 +13,11 @@ Project for Bioinformatics course at Faculty of Electrical Engineering and Compu
 - 1. Locate C++ folder
 - 2. make
 - 3. ./RRRStructure FileName (R|S) letter number
+
+# Literature:
+
+- http://en.wikipedia.org/wiki/Wavelet_Tree
+- http://alexbowe.com/wavelet-trees/
+- http://alexbowe.com/rrr/
+- http://www.dcc.uchile.cl/~gnavarro/ps/cpm12.pdf
+- http://compbio.fmph.uniba.sk/vyuka/vvt/poznamky/p16.pdf
