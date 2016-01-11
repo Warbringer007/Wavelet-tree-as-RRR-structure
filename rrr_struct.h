@@ -73,8 +73,6 @@ private:
 
     //Pull bit vector from lookup table
     std::vector<bool> PullBitVector(RRRBlock block);
-
-    std::string ConvertBitVectorToString(std::vector<bool> bitvector);
 };
 
 #endif // RRR_STRUCT_H_INCLUDED

@@ -24,7 +24,7 @@ int main(int argc , char *argv[]) {
     gettimeofday(&end_time,NULL);
     us = (long)((1000000 * end_time.tv_sec + end_time.tv_usec) -
                     (1000000 * start_time.tv_sec + start_time.tv_usec));
-    cout << us <<" milisekundi priprema struktura" << endl;
+    cout << us <<" mikrosekundi priprema struktura" << endl;
     if ( rankSelect == 'R') {
         gettimeofday(&start_time,NULL);
         result = wt.Rank(letter,number);
@@ -39,6 +39,6 @@ int main(int argc , char *argv[]) {
     }
     us = (long)((1000000 * end_time.tv_sec + end_time.tv_usec) -
                     (1000000 * start_time.tv_sec + start_time.tv_usec));
-    cout << us << " milisekundi obavljanje operacije" <<endl;
+    cout << us << " mikrosekundi obavljanje operacije" <<endl;
     return 0;
 }

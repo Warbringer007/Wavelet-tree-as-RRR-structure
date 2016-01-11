@@ -40,23 +40,13 @@ uint32_t RRRStruct::Rank(uint32_t index, bool value) {
     //In super block
     uint8_t preceding_blocks = block_index - super_block_index * blocks_per_superblock;
     for ( int i = 0; i < preceding_blocks; i++) {
-        //std::cout << "blokic " << super_block_index * blocks_per_superblock + i << "broj blokova " << blocks.size() << std::endl;
-        //std::cout << "offset " << ConvertBitVectorToString(blocks[super_block_index * blocks_per_superblock + i].GetOffset()) << std::endl;
         sum += ConvertBitVectorToInt(blocks[super_block_index * blocks_per_superblock + i].GetClass());
-        //std::cout << "klasa " << ConvertBitVectorToInt(blocks[super_block_index * blocks_per_superblock + i].GetClass()) << std::endl;
     }
     //Get current block from lookup table
     //And calculate number of ones till targeted index
     uint8_t current_block_index = index-preceding_blocks*bits_per_block-super_block_index*blocks_per_superblock*bits_per_block;
     if ( current_block_index > 0 ) {
-        //uint32_t class_ = ConvertBitVectorToInt(blocks[super_block_index * blocks_per_superblock + preceding_blocks].GetClass());
-        //uint32_t offset_ = ConvertBitVectorToInt(blocks[super_block_index * blocks_per_superblock + preceding_blocks].GetOffset());
-        //std::vector<bool> offsets = lookup_table[class_];
         std::vector<bool> result = PullBitVector(blocks[super_block_index * blocks_per_superblock + preceding_blocks]);
-        //for ( int i = 0; i < bits_per_block; i++) {
-        //    rezultantni.push_back(offsets[offset_*bits_per_block+i]);
-        //}
-        //std::cout << ConvertBitVectorToString(result) << " rezultatnni vektor" << std::endl;
         sum += NumberOfOnes(result, current_block_index);
     }
     //Rank returned depends if user asked for rank of zeros or for rank of ones
@@ -70,7 +60,6 @@ uint32_t RRRStruct::Select1(uint32_t n) {
     uint32_t index = 0;
     while ( super_blocks[index+1] < n) {index++;}
     uint32_t sum = super_blocks[index];
-    //std::cout << "indeks superbloka" << index << " rezultat so far " << sum << std::endl;
     //Set index of starting block in super block
     uint32_t block_index = blocks_per_superblock * index;
     uint8_t i = 0;
@@ -86,7 +75,6 @@ uint32_t RRRStruct::Select1(uint32_t n) {
         }
     }
     //Return result
-    //std::cout << "ukupan select" << (block_index + i)*bits_per_block + inside_index - 1 << " trazeni blok " << ConvertBitVectorToString(result_vector) << " rezultat so far " << sum << std::endl;
     return (block_index + i)*bits_per_block + inside_index - 1;
 }
 
@@ -96,7 +84,6 @@ uint32_t RRRStruct::Select0(uint32_t n) {
     uint32_t index = 0;
     while ( ( index + 1 ) * blocks_per_superblock * bits_per_block - super_blocks[index+1] < n) {index++;}
     uint32_t sum = index * blocks_per_superblock * bits_per_block - super_blocks[index];
-    //std::cout << "indeks superbloka" << index << " rezultat so far " << sum << std::endl;
     //Set index of starting block in super block
     uint32_t block_index = blocks_per_superblock * index;
     uint8_t i = 0;
@@ -123,14 +110,12 @@ void RRRStruct::NewBlock(std::vector<bool> block) {
     //Increase it's size to calculated block length
     //By adding zeros on the end
     if ( block.size() < bits_per_block) {
-        //std::cout << "Malen blok:" << ConvertBitVectorToString(block) << std::endl;
         for ( int i = 0; i < ( bits_per_block - block.size()); i++) {
             block.push_back(false);
         }
     }
     //Start of new super block
     if ( current_block_index == 0 ) {
-        //std::cout << "Ovdi sam" << std::endl;
         //Create new super block, it's value is
         //last_super block_ones + last_super block_value
         super_blocks.push_back(current_superblock_ones);
@@ -138,7 +123,6 @@ void RRRStruct::NewBlock(std::vector<bool> block) {
         if ( super_blocks.size() > 1 ) {
             super_blocks[super_blocks.size()-1] += super_blocks[super_blocks.size()-2];
         }
-        //std::cout << super_blocks[super_blocks.size()-1] << " " << super_blocks[super_blocks.size()-2] << std::endl;
     }
     //Calculate number of ones in current block
     uint8_t number_of_ones = NumberOfOnes(block);
@@ -148,7 +132,6 @@ void RRRStruct::NewBlock(std::vector<bool> block) {
     std::vector<bool> number_of_ones_vector = ConvertIntToBitVector(number_of_ones);
     //Get all offsets for current class ( number of ones )
     std::vector<bool> offsets = lookup_table[number_of_ones];
-    //std::cout << ConvertBitVectorToString(offsets) << " sadada" << std::endl;
     //Calculate offset for block
     uint32_t offset = 0;
     for ( offset; offset < offsets.size()/bits_per_block; offset++) {
@@ -170,7 +153,6 @@ void RRRStruct::NewBlock(std::vector<bool> block) {
     current_block_index += 1;
     //Reset block index to 0 if current super block is full
     if ( current_block_index == blocks_per_superblock) current_block_index = 0;
-    //std::cout << "Trenutni blok:" << ConvertBitVectorToString(blocks[blocks.size()-1].GetClass()) << "." << ConvertBitVectorToString(blocks[blocks.size()-1].GetOffset()) << std::endl;
 }
 
 //Calculate number of ones in current block
@@ -236,17 +218,4 @@ std::vector<bool> RRRStruct::PullBitVector(RRRBlock block) {
         result.push_back(offsets[offset_*bits_per_block+i]);
     }
     return result;
-}
-
-std::string RRRStruct::ConvertBitVectorToString(std::vector<bool> bitvector) {
-    std::string string_;
-    uint32_t vector_length = bitvector.size();
-    for ( int i = 0; i < vector_length; i++) {
-        if ( bitvector[i]) {
-            string_.append("1");
-        } else {
-            string_.append("0");
-        }
-    }
-    return string_;
 }
