@@ -110,7 +110,8 @@ void RRRStruct::NewBlock(std::vector<bool> block) {
     //Increase it's size to calculated block length
     //By adding zeros on the end
     if ( block.size() < bits_per_block) {
-        for ( int i = 0; i < ( bits_per_block - block.size()); i++) {
+        uint8_t difference = bits_per_block - block.size();
+        for ( int i = 0; i < difference; i++) {
             block.push_back(false);
         }
     }
@@ -134,9 +135,10 @@ void RRRStruct::NewBlock(std::vector<bool> block) {
     std::vector<bool> offsets = lookup_table[number_of_ones];
     //Calculate offset for block
     uint32_t offset = 0;
-    for ( offset; offset < offsets.size()/bits_per_block; offset++) {
+    uint32_t offsetnes = offsets.size()/bits_per_block;
+    for ( offset; offset < offsetnes; offset++) {
         bool same = true;
-        for ( int j = 0; j < block.size(); j++) {
+        for ( int j = 0; j < bits_per_block; j++) {
             if ( offsets[bits_per_block*offset + j] != block[j]) {
                 same = false;
                 break;

@@ -16,9 +16,6 @@ class Wavelet_tree
         //Destructor
         ~Wavelet_tree();
 
-        //Get string from file
-        std::string GetStringFromFile(std::string file);
-
         //Calculates rank from tree
         uint32_t Rank(char letter, uint32_t number);
 
@@ -34,6 +31,9 @@ class Wavelet_tree
         RRRStruct root_RRR;
         RRRStruct left_RRR;
         RRRStruct right_RRR;
+
+        //Get string from file
+        void GetStringFromFile(std::string file);
 
         //Create RRR from bitvector
         void CreateRRRFromBitVector(RRRStruct* struct_, std::vector<bool> vector_);

@@ -83,9 +83,8 @@ uint32_t Wavelet_tree::Select(char letter, uint32_t number) {
 }
 
 //Reads the file and converts string to bitvectors
-std::string Wavelet_tree:: GetStringFromFile(std::string file){
+void Wavelet_tree:: GetStringFromFile(std::string file){
     std::ifstream input(file.c_str());
-	std::string input_string = "";
 	std::string description = "";
 	char one;
 	//Reading one char at the time until EOF
@@ -109,7 +108,6 @@ std::string Wavelet_tree:: GetStringFromFile(std::string file){
                     right.push_back(true);
                 else right.push_back(false);
             }
-			input_string += one;
         }
 	}
 	input.close();
@@ -120,7 +118,6 @@ std::string Wavelet_tree:: GetStringFromFile(std::string file){
         std::cout<<"left: "<<ConvertBitVectorToString(left)<<std::endl;
         std::cout<<"right: "<<ConvertBitVectorToString(right)<<std::endl;
     }
-	return input_string;
 }
 
 //Converts bitvector to string, used to print bitvectors which size is less than 100
